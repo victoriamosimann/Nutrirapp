@@ -332,189 +332,163 @@ return(<div className="page"><div className="page-title">Montagem da Dieta</div>
   </div>);
 }
 
-// ── TAB 5: CARDÁPIO IA ────────────────────────────────────────────────────────
+// ── CARDÁPIO DATA ─────────────────────────────────────────────────────────────
+const CAFE_OPTIONS = [
+{titulo:“OVINHO COM BANANA”, itens:[“2 ovos mexidos ou cozidos ou omelete com temperos a gosto”,“1 banana”,“Opcional: canela a gosto”,“Acompanhe com 1 fatia de pão integral com 20g de creme de ricota light”]},
+{titulo:“QUEIJO QUENTE”, itens:[“2 fatias de pão integral”,“20g de creme de ricota light”,“1 fatia de mussarela”,“Acompanhe com ½ porção de fruta ou 200ml de água de coco”]},
+{titulo:“SUCRILHOS COM WHEY”, itens:[“150ml de leite desnatado”,“15g de whey”,“40g de cereal sem açúcar”,“½ porção de fruta”]},
+{titulo:“SORVETINHO DE MANGA OU OUTRA FRUTA”, itens:[“1 unidade de iogurte natural desnatado”,“1 porção de fruta congelada”,“15g de whey protein”,“10g de aveia — para aumentar teor de fibras 😊”]},
+{titulo:“PÃOZINHO DE BATATA DOCE”, itens:[“em média 30g de pãozinho”,“1 fatia de mussarela”,“30g de creme de ricota light”,“Acompanhe com ½ porção de fruta”]},
+{titulo:“IOGURTE COM FRUTA E GRANOLA”, itens:[“1 unidade de iogurte natural”,“15g de whey”,“1 porção de fruta”,“20g de granola”]},
+{titulo:“BOLINHO DE BANANA E MAÇÃ”, itens:[“1 porção do bolinho”,“1 fatia de pão integral com 1 ovo mexido e 30g de creme de ricota light”]},
+{titulo:“AVOCADO TOAST”, itens:[“1 fatia de pão integral”,“60g de avocado”,“1 fatia de queijo ou 1 ovo”,“Acompanhe com 1 porção de fruta com creminho de 10g de whey”]},
+{titulo:“PÃO DE QUEIJO DE FRIGIDEIRA”, plus:[”+ 1 ovo batido com 40g de tapioca, 30g de creme de ricota light e 1 fatia de mussarela picada”,”+ leve em uma frigideira até dourar os dois lados”,”+ acompanhe com ½ porção de fruta ou 200ml de água de coco”]},
+];
+const CAFE_MACROS = [
+{kcal:371,cho:48,ptn:23,lip:10},{kcal:376,cho:50,ptn:22,lip:11},{kcal:352,cho:52,ptn:24,lip:5},
+{kcal:332,cho:46,ptn:24,lip:4},{kcal:362,cho:42,ptn:22,lip:12},{kcal:348,cho:50,ptn:22,lip:6},
+{kcal:378,cho:53,ptn:20,lip:11},{kcal:385,cho:47,ptn:18,lip:14},{kcal:360,cho:48,ptn:21,lip:11},
+];
+const PRE_OPTIONS = [
+{titulo:””, plus:[”+ 1 fatia de pão integral”,”+ 1 banana”,”+ canela a gosto”], kcal:158,cho:35,ptn:4,lip:1},
+{titulo:””, plus:[”+ 1 fatia de pão integral”,”+ 20g de doce de leite”,”+ 20g de geleia sem açúcar”], kcal:157,cho:32,ptn:5,lip:3},
+{titulo:””, itens:[“1 unidade de banana passa”,“200ml de água de coco”], kcal:86,cho:20,ptn:1,lip:0},
+];
+const LANCHE_OPTIONS = [
+{titulo:“PÃOZINHO COM PASTA DE AMENDOIM E DOCE DE LEITE”, plus:[”+ 1 fatia de pão integral”,”+ 10g de pasta de amendoim”,”+ 20g de doce de leite”], kcal:204,cho:27,ptn:7,lip:7},
+{titulo:“MAGIC TOAST CACAU”, plus:[”+ 1 pacotinho de magic toast cacau”,”+ 20g de geleia”,”+ 10g de pasta de amendoim”], kcal:179,cho:22,ptn:7,lip:7},
+{titulo:“OVINHOS COM FRUTA”, plus:[”+ 5 ovinhos de codorna”,”+ 1 porção de fruta”], kcal:167,cho:22,ptn:8,lip:5},
+{titulo:“BOLINHO DE BANANA SAUDÁVEL”, plus:[”+ usar 1 porção do bolinho (em média 2 fatias)”], kcal:180,cho:30,ptn:5,lip:5},
+{titulo:“IOGURTE PROTEICO”, plus:[”+ 100g de iogurte proteico Verde Campo (14g proteína)”,”+ ½ porção de fruta”], kcal:148,cho:15,ptn:15,lip:3},
+];
+const ALMOCO_OPT1_PLUS = [”+ ½ prato de salada de folhas variadas (livre)”,”+ 1 a 2 xícaras de legumes variados (livre)”,”+ 120g de frango OU carne bovina magra OU peixe”,”+ 80g de arroz ou quinoa OU 60g de aipim ou macarrão OU 100g de abóbora”,”+ 1 quadradinho de chocolate”,”+ 100ml de suco de uva integral OU 1 unidade de banana passa OU 1 porção de fruta”];
+const ALMOCO_OPT2_PLUS = [”+ ½ prato de salada de folhas variadas (livre)”,”+ 1 a 2 xícaras de legumes variados (livre)”,”+ 130g de frango OU carne bovina magra OU peixe”,”+ 50g de arroz ou quinoa”,”+ 60g de feijão ou 1 concha de feijão”,”+ 1 quadradinho de chocolate”,”+ 100ml de suco de uva integral OU 1 unidade de banana passa OU 1 porção de fruta”];
+const NOTAS_ALMOCO = [”*Opções de proteína: peito de frango ou sassami, salmão, tilápia, atum, carne bovina magra (patinho, maminha, coxão mole e duro, mignon, músculo)”,“Quando almoçar na rua e achar a comida muito gordurosa, não adicione a porção de gordura (azeite de oliva, sementes, tahine, abacate)”,“Quando optar por salmão, por ser uma proteína mais gordurosa, não adicione a porção de gordura”,“Eventualmente é possível adicionar creme de ricota light nas preparações ou polvilhar queijo ralado parmesão light”,“Para temperar as saladas você pode utilizar mostarda, aceto balsâmico, vinagre…”,“Dica: Toste na frigideira com um fiozinho de azeite de oliva e páprica defumada para tostar e utilize por cima da salada”];
+const JANTAR_OPTIONS = [
+{titulo:“REPETIR O ALMOÇO”, plus:[], kcal:0,cho:0,ptn:0,lip:0},
+{titulo:“PIZZA DE RAP10”, plus:[”+ 1 unidade de rap10”,”+ 30g de requeijão light”,”+ molho de tomate”,”+ 100g de frango ou carne ou atum”,”+ tomate, milho, cebola…”,”+ 100ml de suco de uva integral OU 1 unidade de banana passa OU 1 porção de fruta”], kcal:438,cho:40,ptn:42,lip:10},
+{titulo:“HAMBÚRGUER”, itens:[“2 fatias de pão integral”,“30g de creme de ricota light”,“100g de hambúrguer de patinho moído”,“Alface, tomate, cebola…”], plus:[”+ 100ml de suco de uva integral OU 1 unidade de banana passa OU 1 porção de fruta”], kcal:450,cho:42,ptn:38,lip:14},
+];
+const NOTAS_JANTAR = [“Sopas e caldos: utilizar os legumes e/ou a porção de carboidrato para preparar sopas e caldos. Acrescente a proteína separadamente”,“Azeite de oliva e óleos em geral: utilize o mínimo possível no preparo dos alimentos”,“Temperos: utilize temperos naturais frescos e/ou desidratados. Ótimas sugestões: chimichurri, vinagrete, páprica doce, defumada e/ou picante, orégano, alecrim, curry…”,“Como pesar os alimentos: o peso dos alimentos sempre é quantificado após o preparo. Qualquer exceção será descrita no plano alimentar.”];
+const CEIA_OPTIONS = [
+{titulo:””, plus:[”+ 1 porção de fruta”,”+ 15g de mix de nuts”], kcal:120,cho:14,ptn:2,lip:7},
+{titulo:“IOGURTE COM GRANOLA”, plus:[”+ 1 unidade de iogurte natural com 1 colher de sopa de granola”,”*gosto também da opção do iogurte proteico da verde campo – dá bastante saciedade 😊”,”**pode ser o de 14g de proteína 😊”], kcal:155,cho:20,ptn:8,lip:4},
+{titulo:“VITAMINA”, plus:[”+ 150ml de leite desnatado batido com 1 banana pequena ou 1 xícara de morangos”,”+ 1 colher de sopa de aveia”], kcal:145,cho:28,ptn:6,lip:1},
+];
 const FRUTAS_TABLE=[
 [“Abacaxi”,“120g”,“2 rodelas finas”],[“Acerola”,“250g”,“20 unidades”],[“Água de coco”,“400ml”,“2 copos”],
 [“Amora”,“200g”,“20 unidades”],[“Ameixa”,“180g”,“6 unidades”],[“Banana”,“80g”,“1 unidade”],
 [“Caqui”,“100g”,“1 unidade”],[“Cereja”,“120g”,“17 unidades”],[“Damasco”,“120g”,“3 unidades”],
 [“Framboesa”,“120g”,“12 unidades”],[“Geleia 100% natural sem açúcar”,“40g”,“2 colheres rasas”],
 [“Goiaba”,“150g”,“1 unidade pequena”],[“Kiwi”,“180g”,“2 unidades”],[“Laranja”,“100g”,“1 unidade”],
-[“Maçã”,“120g”,“1 unidade média”],[“Mamão”,“180g”,“3 fatias pequenas”],[“Manga”,“150g”,“1 unidade”],
-[“Maracujá”,“150g”,“2 unidades”],[“Melancia”,“250g”,“2 fatias”],[“Melão”,“270g”,“3 fatias”],
-[“Mexerica”,“130g”,“1 unidade”],[“Mirtilo”,“140g”,“20 unidades”],[“Morango”,“300g”,“25 unidades”],
-[“Pêra”,“120g”,“1 unidade média”],[“Pêssego”,“200g”,“3 unidades médias”],[“Pitaya”,“140g”,“2 unidades”],
-[“Suco de laranja integral”,“200ml”,“1 copo”],[“Suco de uva integral”,“130ml”,“½ copo”],
+[“Maçã”,“120g”,“1 unidade média ou 2 unidades pequenas”],[“Mamão”,“180g”,“3 fatias pequenas ou ½ unidade do mamão formosa”],
+[“Manga”,“150g”,“1 unidade”],[“Maracujá”,“150g”,“2 unidades”],[“Melancia”,“250g”,“2 fatias”],
+[“Melão”,“270g”,“3 fatias”],[“Mexerica”,“130g”,“1 unidade”],[“Mirtilo”,“140g”,“20 unidades”],
+[“Morango”,“300g”,“25 unidades”],[“Pêra”,“120g”,“1 unidade média”],[“Pêssego”,“200g”,“3 unidades médias”],
+[“Pitaya”,“140g”,“2 unidades”],[“Suco de laranja integral”,“200ml”,“1 copo”],[“Suco de uva integral”,“130ml”,“½ copo”],
 [“Tâmara fresca”,“25g”,“2 unidades pequenas”],[“Tangerina”,“200g”,“2 unidades pequenas”],
 [“Uva Itália”,“120g”,“18 unidades”],[“Uva Thompson”,“120g”,“18 unidades”],
 ];
 
-function Tab5Cardapio({dados,kcalDieta,ptnGKg,choPct,trainActs,dailyHours}){
-const[loading,setLoading]=useState(false);
-const[cardapio,setCardapio]=useState(null);
-const[erro,setErro]=useState(’’);
-const[apiKey,setApiKey]=useState(()=>{try{return localStorage.getItem(‘nutrir_apikey’)||’’}catch(e){return’’}});
-function saveKey(k){setApiKey(k);try{localStorage.setItem(‘nutrir_apikey’,k)}catch(e){}};
-
-const ptn_g=ptnGKg*dados.peso,ptn_pct=kcalDieta>0?(ptn_g*4/kcalDieta)*100:0,lip_pct=Math.max(0,100-choPct-ptn_pct);
-const cho_g=kcalDieta>0?(kcalDieta*choPct/100)/4:0,lip_g=kcalDieta>0?(kcalDieta*lip_pct/100)/9:0;
-
-// Distribuição por refeição (%)
-const dist={cafe:0.20,lanche1:0.10,preTreino:0.08,almoco:0.30,lanche2:0.10,jantar:0.16,ceia:0.06};
-const metas={
-cafe:{kcal:Math.round(kcalDieta*dist.cafe),cho:Math.round(cho_g*0.22),ptn:Math.round(ptn_g*0.18),lip:Math.round(lip_g*0.18)},
-lanche1:{kcal:Math.round(kcalDieta*dist.lanche1),cho:Math.round(cho_g*0.10),ptn:Math.round(ptn_g*0.10),lip:Math.round(lip_g*0.10)},
-preTreino:{kcal:Math.round(kcalDieta*dist.preTreino),cho:Math.round(cho_g*0.12),ptn:Math.round(ptn_g*0.06),lip:Math.round(lip_g*0.04)},
-almoco:{kcal:Math.round(kcalDieta*dist.almoco),cho:Math.round(cho_g*0.26),ptn:Math.round(ptn_g*0.38),lip:Math.round(lip_g*0.28)},
-lanche2:{kcal:Math.round(kcalDieta*dist.lanche2),cho:Math.round(cho_g*0.10),ptn:Math.round(ptn_g*0.10),lip:Math.round(lip_g*0.10)},
-jantar:{kcal:Math.round(kcalDieta*dist.jantar),cho:Math.round(cho_g*0.14),ptn:Math.round(ptn_g*0.14),lip:Math.round(lip_g*0.22)},
-ceia:{kcal:Math.round(kcalDieta*dist.ceia),cho:Math.round(cho_g*0.06),ptn:Math.round(ptn_g*0.04),lip:Math.round(lip_g*0.08)},
-};
-
-async function gerarCardapio(){
-if(!kcalDieta||!dados.peso){setErro(‘Preencha os dados do paciente e os macros primeiro.’);return}
-setLoading(true);setErro(’’);setCardapio(null);
-const prompt=`Você é a nutricionista Victoria Yohana. Gere um plano alimentar personalizado e detalhado em JSON.
-
-DADOS DO PACIENTE:
-
-- Nome: ${dados.nome||‘Paciente’}
-- Sexo: ${dados.sexo===‘F’?‘Feminino’:‘Masculino’}, ${dados.idade} anos
-- Peso: ${dados.peso}kg | Altura: ${dados.altura}cm | % Gordura: ${dados.gordura}%
-
-METAS DIÁRIAS:
-
-- Total: ${kcalDieta} kcal | CHO: ${cho_g.toFixed(0)}g (${choPct}%) | PTN: ${ptn_g.toFixed(0)}g (${ptn_pct.toFixed(1)}%) | LIP: ${lip_g.toFixed(0)}g (${lip_pct.toFixed(1)}%)
-
-DISTRIBUIÇÃO POR REFEIÇÃO:
-
-- Café da manhã: ~${metas.cafe.kcal} kcal | CHO:${metas.cafe.cho}g | PTN:${metas.cafe.ptn}g | LIP:${metas.cafe.lip}g
-- Lanche manhã/tarde: ~${metas.lanche1.kcal} kcal | CHO:${metas.lanche1.cho}g | PTN:${metas.lanche1.ptn}g | LIP:${metas.lanche1.lip}g
-- Pré-treino: ~${metas.preTreino.kcal} kcal | CHO:${metas.preTreino.cho}g | PTN:${metas.preTreino.ptn}g | LIP:${metas.preTreino.lip}g
-- Almoço: ~${metas.almoco.kcal} kcal | CHO:${metas.almoco.cho}g | PTN:${metas.almoco.ptn}g | LIP:${metas.almoco.lip}g
-- Jantar: ~${metas.jantar.kcal} kcal | CHO:${metas.jantar.cho}g | PTN:${metas.jantar.ptn}g | LIP:${metas.jantar.lip}g
-- Ceia: ~${metas.ceia.kcal} kcal | CHO:${metas.ceia.cho}g | PTN:${metas.ceia.ptn}g | LIP:${metas.ceia.lip}g
-
-REGRAS OBRIGATÓRIAS:
-
-1. Café da manhã: 9 opções variadas e criativas com nomes (OVINHO COM BANANA, QUEIJO QUENTE, etc.)
-1. Pré-treino: 3 opções simples com prefixo “+”
-1. Lanchinhos: 5 opções com prefixo “+”
-1. Almoço: 2 opções com prefixo “+”
-1. Jantar: 3 opções (opção 1 = repetir almoço, opção 2 = pizza rap10, opção 3 = hambúrguer)
-1. Ceia: 3 opções simples
-1. TODAS as opções de uma mesma refeição devem ter macros equivalentes (intercambiáveis)
-1. Inclua emojis e linguagem acolhedora (igual à nutricionista)
-1. Notas do almoço: dicas sobre gordura no salmão, como temperar, etc.
-
-Responda APENAS com JSON válido neste formato exato:
-{
-“objetivos”: “texto motivacional sobre os objetivos do paciente”,
-“cafe”: [
-{“num”:1,“titulo”:“NOME DA OPCAO”,“subtitulo”:“subtitulo opcional”,“itens”:[“item 1”,“item 2”],“plus”:[],“kcal”:370,“cho”:51,“ptn”:21,“lip”:9}
-],
-“preTreino”: [
-{“num”:1,“titulo”:””,“itens”:[],“plus”:[”+ 1 banana”,”+ 1 fatia de pão integral”],“kcal”:150,“cho”:35,“ptn”:4,“lip”:1}
-],
-“lanchinhos”: [
-{“num”:1,“titulo”:“NOME”,“itens”:[],“plus”:[”+ 1 fatia de pão integral”,”+ 10g de pasta de amendoim”],“kcal”:180,“cho”:22,“ptn”:7,“lip”:7}
-],
-“almoco”: [
-{“num”:1,“titulo”:””,“itens”:[],“plus”:[”+ ½ prato de salada”,”+ 120g de frango”,”+ 80g de arroz”],“kcal”:550,“cho”:60,“ptn”:43,“lip”:14},
-{“num”:2,“titulo”:””,“itens”:[],“plus”:[”+ ½ prato de salada”,”+ 130g de frango”,”+ 50g arroz”,”+ 60g feijão”],“kcal”:550,“cho”:58,“ptn”:46,“lip”:13}
-],
-“notasAlmoco”: [”*Opções de proteína: frango, tilápia, salmão, atum, carne magra”,“Quando salmão: não adicione gordura extra”,“Tempere com mostarda, aceto balsâmico, vinagre”],
-“jantar”: [
-{“num”:1,“titulo”:“REPETIR O ALMOÇO”,“itens”:[],“plus”:[],“kcal”:0,“cho”:0,“ptn”:0,“lip”:0},
-{“num”:2,“titulo”:“PIZZA DE RAP10”,“itens”:[],“plus”:[”+ 1 unidade de rap10”,”+ 30g de requeijão light”,”+ molho de tomate”,”+ 100g de frango ou atum”,”+ tomate, milho, cebola”],“kcal”:430,“cho”:40,“ptn”:40,“lip”:10},
-{“num”:3,“titulo”:“HAMBÚRGUER”,“itens”:[“2 fatias de pão integral”,“30g de creme de ricota light”,“100g de hambúrguer de patinho”,“Alface, tomate, cebola”],“plus”:[”+ 100ml suco de uva integral OU 1 porção de fruta”],“kcal”:450,“cho”:42,“ptn”:38,“lip”:14}
-],
-“notasJantar”: [“Sopas e caldos: use os legumes e o carboidrato para preparar. Adicione a proteína separadamente”,“Azeite e óleos: use o mínimo possível”,“Temperos: use naturais frescos ou desidratados (chimichurri, páprica, orégano, curry)”,“Como pesar: sempre após o preparo”],
-“ceia”: [
-{“num”:1,“titulo”:””,“itens”:[],“plus”:[”+ 1 porção de fruta”,”+ 15g de mix de nuts”],“kcal”:110,“cho”:14,“ptn”:2,“lip”:5},
-{“num”:2,“titulo”:“IOGURTE”,“itens”:[],“plus”:[”+ 1 iogurte natural com 1 col. sopa de granola”],“kcal”:150,“cho”:20,“ptn”:8,“lip”:4},
-{“num”:3,“titulo”:“VITAMINA”,“itens”:[],“plus”:[”+ 150ml leite desnatado + 1 banana ou morangos”,”+ 1 col. sopa de aveia”],“kcal”:140,“cho”:26,“ptn”:6,“lip”:1}
-]
-}`;
-
-```
-try{
-  const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content:prompt}]})});
-  const data=await resp.json();
-  const text=data.content.map(b=>b.text||'').join('');
-  const jsonMatch=text.match(/\{[\s\S]*\}/);
-  if(!jsonMatch)throw new Error('JSON não encontrado na resposta');
-  const parsed=JSON.parse(jsonMatch[0]);
-  setCardapio(parsed);
-}catch(e){setErro('Erro ao gerar cardápio: '+e.message);}
-setLoading(false);
-```
-
+// Scale macros from the base (calculated for ~1850 kcal) to patient’s target
+function scaleMacros(base, targetKcal) {
+const factor = targetKcal / 1850;
+return { kcal: Math.round(base.kcal * factor), cho: Math.round(base.cho * factor), ptn: Math.round(base.ptn * factor), lip: Math.round(base.lip * factor) };
 }
 
-function OpcaoBloco({op,usePlus=false}){
+function scalePlus(plus, targetKcal) {
+const factor = targetKcal / 1850;
+return plus; // portions stay same, just note the macro totals
+}
+
+// ── TAB 5: CARDÁPIO ───────────────────────────────────────────────────────────
+function Tab5Cardapio({dados,kcalDieta,ptnGKg,choPct,trainActs,dailyHours}){
+const[gerado,setGerado]=useState(false);
+const[animando,setAnimando]=useState(false);
+
+const ptn_g=(ptnGKg*dados.peso)||0;
+const ptn_pct=kcalDieta>0?(ptn_g*4/kcalDieta)*100:0;
+const lip_pct=Math.max(0,100-choPct-ptn_pct);
+const cho_g=kcalDieta>0?(kcalDieta*choPct/100)/4:0;
+const lip_g=kcalDieta>0?(kcalDieta*lip_pct/100)/9:0;
+
+// Distribution targets per meal
+const dist={cafe:0.20,lanche:0.10,pre:0.08,almoco:0.30,jantar:0.16,ceia:0.06};
+const mKcal={cafe:Math.round(kcalDieta*dist.cafe),lanche:Math.round(kcalDieta*dist.lanche),pre:Math.round(kcalDieta*dist.pre),almoco:Math.round(kcalDieta*dist.almoco),jantar:Math.round(kcalDieta*dist.jantar),ceia:Math.round(kcalDieta*dist.ceia)};
+
+function gerar(){
+setAnimando(true);
+setTimeout(()=>{setGerado(true);setAnimando(false)},600);
+}
+
+if(!kcalDieta||!dados.peso){return(<div className="page"><div className="empty" style={{paddingTop:80}}>
+<div style={{fontSize:48,marginBottom:16}}>⚗️</div>
+<div style={{fontSize:18,fontWeight:600,marginBottom:8}}>Complete os Macros primeiro</div>
+<div>Preencha os dados do paciente e as metas calóricas nas abas anteriores.</div>
+
+  </div></div>);}
+
+function OpcaoBloco({op,macros,num}){
+const m=macros?scaleMacros(macros,kcalDieta):null;
 return(<div className="opcao-bloco">
-<div className="opcao-label">OPÇÃO {op.num}</div>
+<div className="opcao-label">OPÇÃO {num}</div>
 {op.titulo&&<div className="opcao-subtitulo">{op.titulo}</div>}
 {op.itens&&op.itens.map((it,i)=>(<div key={i} className="opcao-item">{it}</div>))}
 {op.plus&&op.plus.map((it,i)=>(<div key={i} className="opcao-plus">{it}</div>))}
-{op.kcal>0&&<div className="opcao-macro">→ Total aprox.: {op.kcal} kcal | P: {op.ptn}g | C: {op.cho}g | G: {op.lip}g</div>}
+{m&&m.kcal>0&&<div className="opcao-macro">→ Total aprox.: {m.kcal} kcal | P: {m.ptn}g | C: {m.cho}g | G: {m.lip}g</div>}
 </div>);
-}
-
-if(!kcalDieta||!dados.peso){
-return(<div className="page"><div className="empty" style={{paddingTop:80}}>
-<div style={{fontSize:48,marginBottom:16}}>⚗️</div>
-<div style={{fontSize:18,fontWeight:600,marginBottom:8}}>Complete os Macros primeiro</div>
-<div>Preencha os dados do paciente e as metas calóricas nas abas anteriores para gerar o cardápio.</div>
-</div></div>);
 }
 
 return(<div className="page">
 <div className="page-title">Cardápio Personalizado</div>
-<div className="page-sub">Gere automaticamente o plano alimentar completo com IA baseado nos macros calculados</div>
+<div className="page-sub">Plano alimentar completo gerado com base nos macros calculados</div>
 
 ```
-{!cardapio&&(<div className="card" style={{marginBottom:16}}>
-  <div className="card-title">🔑 Chave de API Anthropic</div>
-  <div style={{fontSize:13,color:'var(--mid)',marginBottom:12}}>Necessária para gerar o cardápio. Obtenha grátis em <b>console.anthropic.com</b> → API Keys. Fica salva só no seu navegador.</div>
-  <div style={{display:'flex',gap:10,alignItems:'center'}}>
-    <input type="password" value={apiKey} onChange={e=>saveKey(e.target.value)} placeholder="sk-ant-api03-..." style={{flex:1}}/>
-    {apiKey&&<span style={{color:'var(--green)',fontWeight:600,fontSize:13,whiteSpace:'nowrap'}}>✅ Salva</span>}
+{!gerado&&!animando&&(<div className="card" style={{textAlign:'center',padding:48}}>
+  <div style={{fontSize:52,marginBottom:16}}>📋</div>
+  <div style={{fontSize:20,fontWeight:600,marginBottom:8,fontFamily:'DM Serif Display'}}>Gerar Cardápio Completo</div>
+  <div style={{fontSize:14,color:'var(--mid)',marginBottom:20}}>
+    Para <b>{dados.nome||'o paciente'}</b> com as metas:
   </div>
-</div>)}
-{!cardapio&&!loading&&(<div className="card" style={{textAlign:'center',padding:40}}>
-  <div style={{fontSize:48,marginBottom:16}}>🤖</div>
-  <div style={{fontSize:18,fontWeight:600,marginBottom:8,fontFamily:'DM Serif Display'}}>Gerar Cardápio com Inteligência Artificial</div>
-  <div style={{fontSize:14,color:'var(--mid)',marginBottom:8}}>A IA vai criar opções personalizadas para <b>{dados.nome||'o paciente'}</b> respeitando os macros exatos:</div>
-  <div style={{display:'flex',gap:16,justifyContent:'center',margin:'16px 0',flexWrap:'wrap'}}>
+  <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap',marginBottom:28}}>
     <span className="badge badge-gold">{kcalDieta} kcal</span>
     <span className="badge badge-green">CHO: {cho_g.toFixed(0)}g</span>
     <span className="badge" style={{background:'var(--blue-bg)',color:'var(--blue)'}}>PTN: {ptn_g.toFixed(0)}g</span>
     <span className="badge badge-red">LIP: {lip_g.toFixed(0)}g</span>
   </div>
-  <div style={{fontSize:13,color:'var(--mid)',marginBottom:24}}>9 opções de café · pré-treino · lanchinhos · almoço · jantar · ceia · tabelas completas</div>
-  {erro&&<div style={{background:'var(--red-bg)',color:'var(--red)',padding:'10px 16px',borderRadius:10,marginBottom:16,fontSize:13}}>{erro}</div>}
-  {!apiKey&&<div style={{background:'var(--gold-pale)',color:'var(--gold)',padding:'10px 16px',borderRadius:10,marginBottom:16,fontSize:13,fontWeight:600}}>⚠️ Cole sua chave de API acima para continuar</div>}
-  <button className="btn btn-gold" style={{fontSize:16,padding:'14px 32px',opacity:apiKey?1:0.5,cursor:apiKey?'pointer':'not-allowed'}} onClick={()=>{if(apiKey)gerarCardapio()}}>✨ Gerar Cardápio Agora</button>
+  <div style={{fontSize:13,color:'var(--mid)',marginBottom:28,lineHeight:1.8}}>
+    ☀️ 9 opções de café da manhã &nbsp;·&nbsp; ⚡ Pré-treino &nbsp;·&nbsp; 🍎 Lanchinhos<br/>
+    🍽️ 2 opções de almoço &nbsp;·&nbsp; 🌙 Jantar &nbsp;·&nbsp; 🌙 Ceia<br/>
+    🥦 Grupos de legumes &nbsp;·&nbsp; 🍓 Tabela de frutas completa
+  </div>
+  <button className="btn btn-gold" style={{fontSize:16,padding:'14px 40px'}} onClick={gerar}>
+    ✨ Gerar Cardápio Agora
+  </button>
+  <div style={{fontSize:12,color:'var(--mid)',marginTop:12}}>Funciona offline · sem internet necessária</div>
 </div>)}
 
-{loading&&(<div className="card"><div className="loading-wrap">
+{animando&&(<div className="card"><div className="loading-wrap">
   <div className="loading-spinner"/>
-  <div style={{fontSize:16,fontWeight:600,marginBottom:8}}>Gerando seu cardápio personalizado<span className="loading-dots"/></div>
-  <div className="loading-msg">A IA está criando opções variadas e intercambiáveis baseadas nos seus macros</div>
+  <div style={{fontSize:16,fontWeight:600,marginBottom:8}}>Montando seu cardápio personalizado...</div>
+  <div className="loading-msg">Calculando porções e ajustando os macros</div>
 </div></div>)}
 
-{cardapio&&(<>
-  <div className="card print-hide" style={{display:'flex',gap:12,justifyContent:'flex-end',marginBottom:0}}>
-    <button className="btn btn-outline btn-sm" onClick={()=>setCardapio(null)}>🔄 Gerar Novo</button>
-    <button className="btn btn-gold btn-sm" onClick={()=>window.print()}>🖨️ Imprimir / Salvar PDF</button>
+{gerado&&(<>
+  <div className="card print-hide" style={{display:'flex',gap:12,justifyContent:'space-between',alignItems:'center'}}>
+    <div style={{fontSize:13,color:'var(--mid)'}}>
+      Cardápio gerado para <b>{dados.nome||'Paciente'}</b> · {kcalDieta} kcal/dia
+    </div>
+    <div style={{display:'flex',gap:8}}>
+      <button className="btn btn-outline btn-sm" onClick={()=>setGerado(false)}>🔄 Regerar</button>
+      <button className="btn btn-gold btn-sm" onClick={()=>window.print()}>🖨️ Imprimir / PDF</button>
+    </div>
   </div>
 
-  {/* CARDÁPIO VISUAL */}
   <div className="cardapio-wrap" id="cardapio-print">
+    {/* HEADER */}
     <div className="cardapio-header">
       <div className="cardapio-titulo">Dieta Personalizada</div>
-      <div className="cardapio-paciente">Paciente: <b>{dados.nome||'—'}</b> · {new Date().toLocaleDateString('pt-BR')}</div>
+      <div className="cardapio-paciente">Paciente: <b>{dados.nome||'—'}</b> &nbsp;·&nbsp; Data: {new Date().toLocaleDateString('pt-BR')}</div>
     </div>
 
     {/* BANNER MACROS */}
@@ -526,67 +500,103 @@ return(<div className="page">
       <div className="m-item"><div className="m-val">{lip_g.toFixed(0)}g</div><div className="m-lbl">Gordura</div></div>
     </div>
 
-    {/* OBJETIVOS */}
-    {cardapio.objetivos&&(<div className="card" style={{marginBottom:24,borderLeft:'4px solid var(--gold)'}}>
+    {/* METAS E OBJETIVOS */}
+    <div className="card" style={{marginBottom:24,borderLeft:'4px solid var(--gold)'}}>
       <div className="card-title">🎯 Metas e Objetivos</div>
-      <div style={{fontSize:14,lineHeight:1.7,color:'var(--mid)'}}>{cardapio.objetivos}</div>
-    </div>)}
+      <div style={{fontSize:14,lineHeight:1.8,color:'var(--mid)'}}>
+        Olá {dados.nome?`, ${dados.nome}`:''} 😊 Seu plano foi montado com muito carinho para te ajudar a alcançar seus objetivos!
+        Lembre-se: a consistência é a chave do sucesso. Faça as trocas permitidas sempre que precisar e não se cobre tanto nas
+        escolhas — o mais importante é manter o padrão ao longo do tempo. Qualquer dúvida, estou aqui! 💛
+      </div>
+    </div>
 
     {/* CAFÉ DA MANHÃ */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">☀️ Café da Manhã</div>
-      {cardapio.cafe&&cardapio.cafe.map((op,i)=>(<OpcaoBloco key={i} op={op}/>))}
+      <div style={{fontSize:12,color:'var(--mid)',marginBottom:16,fontStyle:'italic'}}>Meta: ~{mKcal.cafe} kcal por opção</div>
+      {CAFE_OPTIONS.map((op,i)=>(<OpcaoBloco key={i} op={op} macros={CAFE_MACROS[i]} num={i+1}/>))}
     </div>
 
     {/* PRÉ-TREINO */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">⚡ Pré-Treino</div>
-      {cardapio.preTreino&&cardapio.preTreino.map((op,i)=>(<OpcaoBloco key={i} op={op}/>))}
+      <div style={{fontSize:12,color:'var(--mid)',marginBottom:16,fontStyle:'italic'}}>Meta: ~{mKcal.pre} kcal por opção</div>
+      {PRE_OPTIONS.map((op,i)=>(<div key={i} className="opcao-bloco">
+        <div className="opcao-label">OPÇÃO {i+1}</div>
+        {op.itens&&op.itens.map((it,j)=>(<div key={j} className="opcao-item">{it}</div>))}
+        {op.plus&&op.plus.map((it,j)=>(<div key={j} className="opcao-plus">{it}</div>))}
+        <div className="opcao-macro">→ Total aprox.: {scaleMacros(op,kcalDieta).kcal} kcal | P: {scaleMacros(op,kcalDieta).ptn}g | C: {scaleMacros(op,kcalDieta).cho}g | G: {scaleMacros(op,kcalDieta).lip}g</div>
+      </div>))}
     </div>
 
     {/* LANCHINHOS */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">🍎 Lanche da Manhã ou da Tarde</div>
       <div className="lanchinhos-banner">LANCHINHOS — REALIZAR AO LONGO DO DIA, PODENDO SER NOS HORÁRIOS QUE PREFERIR 😊</div>
-      {cardapio.lanchinhos&&cardapio.lanchinhos.map((op,i)=>(<OpcaoBloco key={i} op={op}/>))}
+      <div style={{fontSize:12,color:'var(--mid)',marginBottom:16,fontStyle:'italic'}}>Meta: ~{mKcal.lanche} kcal por opção</div>
+      {LANCHE_OPTIONS.map((op,i)=>(<div key={i} className="opcao-bloco">
+        <div className="opcao-label">OPÇÃO {i+1}</div>
+        {op.titulo&&<div className="opcao-subtitulo">{op.titulo}</div>}
+        {op.plus&&op.plus.map((it,j)=>(<div key={j} className="opcao-plus">{it}</div>))}
+        <div className="opcao-macro">→ Total aprox.: {scaleMacros(op,kcalDieta).kcal} kcal | P: {scaleMacros(op,kcalDieta).ptn}g | C: {scaleMacros(op,kcalDieta).cho}g | G: {scaleMacros(op,kcalDieta).lip}g</div>
+      </div>))}
     </div>
 
     {/* ALMOÇO */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">🍽️ Almoço</div>
-      {cardapio.almoco&&cardapio.almoco.map((op,i)=>(<OpcaoBloco key={i} op={op}/>))}
-      {cardapio.notasAlmoco&&(<div style={{marginTop:16}}>{cardapio.notasAlmoco.map((n,i)=>(<div key={i} className="nota-item"><span>{n}</span></div>))}</div>)}
+      <div style={{fontSize:12,color:'var(--mid)',marginBottom:16,fontStyle:'italic'}}>Meta: ~{mKcal.almoco} kcal por opção</div>
+      <div className="opcao-bloco"><div className="opcao-label">OPÇÃO 1</div>
+        {ALMOCO_OPT1_PLUS.map((it,i)=>(<div key={i} className="opcao-plus">{it}</div>))}
+        <div className="opcao-macro">→ Total aprox.: {Math.round(mKcal.almoco)} kcal | P: {Math.round(ptn_g*0.38)}g | C: {Math.round(cho_g*0.26)}g | G: {Math.round(lip_g*0.28)}g</div>
+      </div>
+      <div className="opcao-bloco"><div className="opcao-label">OPÇÃO 2</div>
+        {ALMOCO_OPT2_PLUS.map((it,i)=>(<div key={i} className="opcao-plus">{it}</div>))}
+        <div className="opcao-macro">→ Total aprox.: {Math.round(mKcal.almoco)} kcal | P: {Math.round(ptn_g*0.40)}g | C: {Math.round(cho_g*0.24)}g | G: {Math.round(lip_g*0.28)}g</div>
+      </div>
+      <div style={{marginTop:16}}>{NOTAS_ALMOCO.map((n,i)=>(<div key={i} className="nota-item"><span>{n}</span></div>))}</div>
     </div>
 
     {/* JANTAR */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">🌙 Jantar</div>
-      {cardapio.jantar&&cardapio.jantar.map((op,i)=>(<OpcaoBloco key={i} op={op}/>))}
-      {cardapio.notasJantar&&(<div style={{marginTop:16}}>{cardapio.notasJantar.map((n,i)=>(<div key={i} className="nota-item"><span>{n}</span></div>))}</div>)}
+      <div style={{fontSize:12,color:'var(--mid)',marginBottom:16,fontStyle:'italic'}}>Meta: ~{mKcal.jantar} kcal por opção</div>
+      {JANTAR_OPTIONS.map((op,i)=>(<div key={i} className="opcao-bloco">
+        <div className="opcao-label">OPÇÃO {i+1}</div>
+        {op.titulo&&<div className="opcao-subtitulo">{op.titulo}</div>}
+        {op.itens&&op.itens.map((it,j)=>(<div key={j} className="opcao-item">{it}</div>))}
+        {op.plus&&op.plus.map((it,j)=>(<div key={j} className="opcao-plus">{it}</div>))}
+        {op.kcal>0&&<div className="opcao-macro">→ Total aprox.: {scaleMacros(op,kcalDieta).kcal} kcal | P: {scaleMacros(op,kcalDieta).ptn}g | C: {scaleMacros(op,kcalDieta).cho}g | G: {scaleMacros(op,kcalDieta).lip}g</div>}
+      </div>))}
+      <div style={{marginTop:16}}>{NOTAS_JANTAR.map((n,i)=>(<div key={i} className="nota-item"><span>{n}</span></div>))}</div>
     </div>
 
     {/* CEIA */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">🌙 Ceia</div>
-      {cardapio.ceia&&cardapio.ceia.map((op,i)=>(<OpcaoBloco key={i} op={op}/>))}
+      <div style={{fontSize:12,color:'var(--mid)',marginBottom:16,fontStyle:'italic'}}>Meta: ~{mKcal.ceia} kcal por opção</div>
+      {CEIA_OPTIONS.map((op,i)=>(<div key={i} className="opcao-bloco">
+        <div className="opcao-label">OPÇÃO {i+1}</div>
+        {op.titulo&&<div className="opcao-subtitulo">{op.titulo}</div>}
+        {op.plus&&op.plus.map((it,j)=>(<div key={j} className="opcao-plus">{it}</div>))}
+        <div className="opcao-macro">→ Total aprox.: {scaleMacros(op,kcalDieta).kcal} kcal | P: {scaleMacros(op,kcalDieta).ptn}g | C: {scaleMacros(op,kcalDieta).cho}g | G: {scaleMacros(op,kcalDieta).lip}g</div>
+      </div>))}
     </div>
 
     {/* GRUPOS LEGUMES */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">🥦 Grupos de Legumes e Vegetais</div>
       <div className="nota-item" style={{marginBottom:16}}><span>Legumes e vegetais da tabela <b>A</b> e <b>B</b> podem ser consumidos à vontade.</span></div>
-      <div className="grupo-legumes"><div className="grupo-header gh-green">GRUPO A — CONTENDO CERCA DE 5% DE CARBOIDRATOS</div><div className="grupo-content">Alcachofra, brócolis, brócolis chinês, couve-flor, acelga, aipo, salsão, couve-manteiga, espinafre, mostarda, repolho, abobrinha, berinjela, jiló, maxixe, pimentão amarelo, verde e vermelho, tomate, alho-poró, aspargo, cebola, cebolinha, coentro, hortelã, salsa, agrião, alface, almeirão, chicória, pepino, rabanete.</div></div>
-      <div className="grupo-legumes" style={{marginTop:8}}><div className="grupo-header gh-yellow">GRUPO B — CONTENDO CERCA DE 10% DE CARBOIDRATOS</div><div className="grupo-content">Repolho-roxo, abóbora-butternut, abóbora-moranga, abobrinha paulista, chuchu, ervilha-torta, fava, moranga-cabotiá, quiabo, vagem, cenoura, couve-de-bruxelas, ervilha, beterraba, nabo.</div></div>
-      <div className="grupo-legumes" style={{marginTop:8}}><div className="grupo-header gh-red">GRUPO C — CONTENDO CERCA DE 20% DE CARBOIDRATOS</div><div className="grupo-content">Aipim, mandioca, batata-baroa, batata-doce, batata-inglesa, cará, inhame, cogumelos, milho.</div></div>
+      <div className="grupo-legumes"><div className="grupo-header gh-green">GRUPO A — CONTENDO CERCA DE 5% DE CARBOIDRATOS</div><div className="grupo-content">Alcachofra, brócolis, brócolis chinês, couve-flor, acelga, aipo, salsão, couve-manteiga, couve-chinesa, espinafre, mostarda, mostarda crespa, repolho, abobrinha, berinjela, jiló, maxixe, pimentão amarelo, verde e vermelho, tomate, alho-poró, aspargo, broto de alfafa, cebola, cebola roxa e vermelha, chalota, cebolinha, coentro, hortelã, salsa, agrião, alface americana, lisa, crespa, romana e roxa, almeirão roxo, almeirão, radite, chicória, pepino, rabanete.</div></div>
+      <div className="grupo-legumes" style={{marginTop:8}}><div className="grupo-header gh-yellow">GRUPO B — CONTENDO CERCA DE 10% DE CARBOIDRATOS</div><div className="grupo-content">Repolho-roxo, abóbora-butternut, abóbora-menina-brasileira, abóbora-moranga, abóbora-moranga-jacaré, abóbora-pescoço, abóbora-tetsukabuto, abobrinha paulista, chuchu, ervilha-torta, fava, moranga-cabotiá, quiabo, vagem, cenoura, couve-de-bruxelas, ervilha, beterraba, nabo.</div></div>
+      <div className="grupo-legumes" style={{marginTop:8}}><div className="grupo-header gh-red">GRUPO C — CONTENDO CERCA DE 20% DE CARBOIDRATOS</div><div className="grupo-content">Aipim, mandioca, batata-baroa, batata-baroa branca, batata-doce, batata-doce branca e roxa, batata-inglesa, cará, inhame, cogumelos, milho.</div></div>
     </div>
 
     {/* TABELA FRUTAS */}
     <div className="refeicao-bloco">
       <div className="refeicao-titulo">🍓 Tabela de Frutas</div>
-      <table className="tbl-frutas">
-        <thead><tr><th>Fruta</th><th>Peso</th><th>Medida caseira</th></tr></thead>
-        <tbody>{FRUTAS_TABLE.map(([f,p,m],i)=>(<tr key={i}><td style={{textAlign:'left'}}>{f}</td><td>{p}</td><td>{m}</td></tr>))}</tbody>
-      </table>
+      <table className="tbl-frutas"><thead><tr><th>Fruta</th><th>Peso</th><th>Medida caseira</th></tr></thead>
+      <tbody>{FRUTAS_TABLE.map(([f,p,m],i)=>(<tr key={i}><td style={{textAlign:'left'}}>{f}</td><td>{p}</td><td>{m}</td></tr>))}</tbody></table>
     </div>
 
     <div style={{textAlign:'center',marginTop:32,padding:20,borderTop:'1px solid var(--border)',fontSize:12,color:'var(--mid)'}}>
