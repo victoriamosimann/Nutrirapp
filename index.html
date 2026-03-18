@@ -352,6 +352,8 @@ function Tab5Cardapio({dados,kcalDieta,ptnGKg,choPct,trainActs,dailyHours}){
 const[loading,setLoading]=useState(false);
 const[cardapio,setCardapio]=useState(null);
 const[erro,setErro]=useState(’’);
+const[apiKey,setApiKey]=useState(()=>{try{return localStorage.getItem(‘nutrir_apikey’)||’’}catch(e){return’’}});
+function saveKey(k){setApiKey(k);try{localStorage.setItem(‘nutrir_apikey’,k)}catch(e){}};
 
 const ptn_g=ptnGKg*dados.peso,ptn_pct=kcalDieta>0?(ptn_g*4/kcalDieta)*100:0,lip_pct=Math.max(0,100-choPct-ptn_pct);
 const cho_g=kcalDieta>0?(kcalDieta*choPct/100)/4:0,lip_g=kcalDieta>0?(kcalDieta*lip_pct/100)/9:0;
@@ -436,7 +438,7 @@ Responda APENAS com JSON válido neste formato exato:
 
 ```
 try{
-  const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content:prompt}]})});
+  const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,messages:[{role:'user',content:prompt}]})});
   const data=await resp.json();
   const text=data.content.map(b=>b.text||'').join('');
   const jsonMatch=text.match(/\{[\s\S]*\}/);
@@ -472,6 +474,14 @@ return(<div className="page">
 <div className="page-sub">Gere automaticamente o plano alimentar completo com IA baseado nos macros calculados</div>
 
 ```
+{!cardapio&&(<div className="card" style={{marginBottom:16}}>
+  <div className="card-title">🔑 Chave de API Anthropic</div>
+  <div style={{fontSize:13,color:'var(--mid)',marginBottom:12}}>Necessária para gerar o cardápio. Obtenha grátis em <b>console.anthropic.com</b> → API Keys. Fica salva só no seu navegador.</div>
+  <div style={{display:'flex',gap:10,alignItems:'center'}}>
+    <input type="password" value={apiKey} onChange={e=>saveKey(e.target.value)} placeholder="sk-ant-api03-..." style={{flex:1}}/>
+    {apiKey&&<span style={{color:'var(--green)',fontWeight:600,fontSize:13,whiteSpace:'nowrap'}}>✅ Salva</span>}
+  </div>
+</div>)}
 {!cardapio&&!loading&&(<div className="card" style={{textAlign:'center',padding:40}}>
   <div style={{fontSize:48,marginBottom:16}}>🤖</div>
   <div style={{fontSize:18,fontWeight:600,marginBottom:8,fontFamily:'DM Serif Display'}}>Gerar Cardápio com Inteligência Artificial</div>
@@ -484,7 +494,8 @@ return(<div className="page">
   </div>
   <div style={{fontSize:13,color:'var(--mid)',marginBottom:24}}>9 opções de café · pré-treino · lanchinhos · almoço · jantar · ceia · tabelas completas</div>
   {erro&&<div style={{background:'var(--red-bg)',color:'var(--red)',padding:'10px 16px',borderRadius:10,marginBottom:16,fontSize:13}}>{erro}</div>}
-  <button className="btn btn-gold" style={{fontSize:16,padding:'14px 32px'}} onClick={gerarCardapio}>✨ Gerar Cardápio Agora</button>
+  {!apiKey&&<div style={{background:'var(--gold-pale)',color:'var(--gold)',padding:'10px 16px',borderRadius:10,marginBottom:16,fontSize:13,fontWeight:600}}>⚠️ Cole sua chave de API acima para continuar</div>}
+  <button className="btn btn-gold" style={{fontSize:16,padding:'14px 32px',opacity:apiKey?1:0.5,cursor:apiKey?'pointer':'not-allowed'}} onClick={()=>{if(apiKey)gerarCardapio()}}>✨ Gerar Cardápio Agora</button>
 </div>)}
 
 {loading&&(<div className="card"><div className="loading-wrap">
